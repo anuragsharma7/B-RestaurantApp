@@ -1,0 +1,51 @@
+PODS:
+  - Alamofire (5.4.3)
+  - ExpyTableView (1.2.1)
+  - lottie-ios (3.2.3)
+  - Stripe (22.5.0):
+    - Stripe/Stripe3DS2 (= 22.5.0)
+    - StripeApplePay (= 22.5.0)
+    - StripeCore (= 22.5.0)
+    - StripeUICore (= 22.5.0)
+  - Stripe/Stripe3DS2 (22.5.0):
+    - StripeApplePay (= 22.5.0)
+    - StripeCore (= 22.5.0)
+    - StripeUICore (= 22.5.0)
+  - StripeApplePay (22.5.0):
+    - StripeCore (= 22.5.0)
+  - StripeCore (22.5.0)
+  - StripeUICore (22.5.0):
+    - StripeCore (= 22.5.0)
+  - SwiftyJSON (5.0.1)
+
+DEPENDENCIES:
+  - Alamofire (= 5.4.3)
+  - ExpyTableView
+  - lottie-ios (= 3.2.3)
+  - Stripe (= 22.5.0)
+  - SwiftyJSON (= 5.0.1)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - ExpyTableView
+    - lottie-ios
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeUICore
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  ExpyTableView: 19cf224c2ff04b1ec215ec52bc4ba6f81fa809ed
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
+  Stripe: fbb88e14eec8b6ed10d13aa00d5f83c1bf77ac92
+  StripeApplePay: 35910f191ef1ef2e835154b5a590bfecbe78b1d9
+  StripeCore: 936e8e06e2eb69661d7eb1278f5d508c67c39e8f
+  StripeUICore: aa77a7dc94d6ba400cddeda8eb28c865a2d7619c
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+
+PODFILE CHECKSUM: a2b60e47c6f5e32c88e30f03756f72f77a68e096
+
+COCOAPODS: 1.11.3
