@@ -39,6 +39,7 @@
 		FD7382C92912ACB400B27068 /* CheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7382C82912ACB400B27068 /* CheckboxCell.swift */; };
 		FDB8BC1A28FFFFED00C456B1 /* ExpandableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB8BC1928FFFFED00C456B1 /* ExpandableCell.swift */; };
 		FDB8BC202900767600C456B1 /* TitleCellForExpandable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB8BC1F2900767600C456B1 /* TitleCellForExpandable.swift */; };
+		FDFD4689291650AF003EDD3B /* ExtrasItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFD4688291650AF003EDD3B /* ExtrasItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		FD7382C82912ACB400B27068 /* CheckboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCell.swift; sourceTree = "<group>"; };
 		FDB8BC1928FFFFED00C456B1 /* ExpandableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableCell.swift; sourceTree = "<group>"; };
 		FDB8BC1F2900767600C456B1 /* TitleCellForExpandable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCellForExpandable.swift; sourceTree = "<group>"; };
+		FDFD4688291650AF003EDD3B /* ExtrasItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtrasItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				DA14FC8A27658A1500B6B616 /* Meal.swift */,
 				DA6423E427661902007931C4 /* Cart.swift */,
 				DA64006C28A7CE5C007F49CE /* Profile.swift */,
+				FDFD4688291650AF003EDD3B /* ExtrasItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				DA14FC8D27658B2100B6B616 /* MealViewCell.swift in Sources */,
 				DAF770DC275D275000A02E72 /* CartViewController.swift in Sources */,
 				DA14FC8F27659E5700B6B616 /* Utils.swift in Sources */,
+				FDFD4689291650AF003EDD3B /* ExtrasItem.swift in Sources */,
 				DA14FC7F2764C2F600B6B616 /* AppSession.swift in Sources */,
 				DAF770C0275CC97500A02E72 /* SceneDelegate.swift in Sources */,
 				DA14FC8B27658A1500B6B616 /* Meal.swift in Sources */,

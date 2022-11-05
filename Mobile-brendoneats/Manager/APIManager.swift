@@ -123,6 +123,7 @@ class APIManager {
         let path = "api/customer/payment_intent/"
         let params: [String: String] = [
             "total": Cart.currentCart.getTotalValue().description,
+            //xxx
         ]
         let headers: HTTPHeaders = [
             "Authorization": self.accessToken,

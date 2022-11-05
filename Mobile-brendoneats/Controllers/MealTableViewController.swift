@@ -22,6 +22,7 @@ class MealTableViewController: UITableViewController {
         self.fetchMeals()
         self.createFloatingButton()
     }
+    
     // i just check
     override func viewDidAppear(_ animated: Bool) {
         self.updateFloatingButton()

@@ -29,8 +29,9 @@ class MealDetailsViewController: UIViewController {
     var qty = 1
     
     var arrSingleSelect: [Item] = []
-    var arrMultipleSelect: [Item] = []
+    var arrMultipleSelect: [Int] = []
     var arrCheckbox: [Int] = []
+    
     
     var lastAddedPriceForSingleSelection: Float = 0.0
      
@@ -53,6 +54,10 @@ class MealDetailsViewController: UIViewController {
         
         for _ in 0..<meal!.extras![2].items!.count {
             arrCheckbox.append(0)
+        }
+        
+        for _ in 0..<meal!.extras![1].items!.count {
+            arrMultipleSelect.append(0)
         }
         
     }
@@ -150,6 +155,34 @@ class MealDetailsViewController: UIViewController {
             Cart.currentCart.restaurant = self.restaurant
             Cart.currentCart.items.append(cartItem)
             
+            //total payment to add in model, so that, to get param while api calling
+            
+            //arrSingleSelect
+            let single = ExtrasItem(item: arrSingleSelect[0], qty: 1)
+            ExtrasChoosen.ref.items.append(single)
+            
+            
+            //get qty from arrMultipleSelect
+            for i in 0..<arrMultipleSelect.count {
+                if arrMultipleSelect[i] != 0 {
+                    
+                    let multi = ExtrasItem(item: meal!.extras![1].items![i], qty: arrMultipleSelect[i])
+                    ExtrasChoosen.ref.items.append(multi)
+                    
+                }
+            }
+            
+            //arrCheckbox
+            for i in 0..<arrCheckbox.count {
+                if arrCheckbox[i] == 1 {
+                    
+                    let multi = ExtrasItem(item: meal!.extras![2].items![i], qty: arrCheckbox[i])
+                    ExtrasChoosen.ref.items.append(multi)
+                    
+                }
+            }
+            
+            print(ExtrasChoosen.ref.items)
             print(Cart.currentCart.getTotalQuantity())
             goBack()
             return
@@ -176,7 +209,7 @@ class MealDetailsViewController: UIViewController {
                 
                 let okAction = UIAlertAction(title: "Add more", style: .default) { action in
                     Cart.currentCart.items[index].qty += self.qty
-                    print(Cart.currentCart.getTotalQuantity())
+//                    print(Cart.currentCart.getTotalQuantity())
                     self.goBack()
                 }
                 
@@ -185,7 +218,7 @@ class MealDetailsViewController: UIViewController {
                 self.present(alertView, animated: true, completion: nil)
             } else {
                 Cart.currentCart.items.append(cartItem)
-                print(Cart.currentCart.getTotalQuantity())
+//                print(Cart.currentCart.getTotalQuantity())
                 goBack()
             }
         } else {
@@ -201,7 +234,7 @@ class MealDetailsViewController: UIViewController {
                 Cart.currentCart.items.append(cartItem)
                 Cart.currentCart.restaurant = self.restaurant
                 
-                print(Cart.currentCart.getTotalQuantity())
+//                print(Cart.currentCart.getTotalQuantity())
                 self.goBack()
             }
             
@@ -379,7 +412,9 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
                     if let existingTotal = Float(labelTotal.text!.dropFirst()) {
                         
                         labelTotal.text = "$\(existingTotal - price)"
-                        cell.lblCount.text = String(Int(cell.lblCount.text!)! - 1)
+                        let count = Int(cell.lblCount.text!)! - 1
+                        cell.lblCount.text = String(count)
+                        arrMultipleSelect[indexPath!.row - 1] = count
                     }
                     
                 }
@@ -400,7 +435,9 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
                 if let existingTotal = Float(labelTotal.text!.dropFirst()) {
                     
                     labelTotal.text = "$\(existingTotal + price)"
-                    cell.lblCount.text = String(Int(cell.lblCount.text!)! + 1)
+                    let count = Int(cell.lblCount.text!)! + 1
+                    cell.lblCount.text = String(count)
+                    arrMultipleSelect[indexPath!.row - 1] = count
                 }
                 
             }

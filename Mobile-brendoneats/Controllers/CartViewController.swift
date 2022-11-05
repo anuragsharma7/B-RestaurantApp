@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 
+
 class CartViewController: UIViewController {
 
     @IBOutlet weak var tableViewCart: UITableView!
@@ -21,6 +22,9 @@ class CartViewController: UIViewController {
     @IBOutlet weak var labelTotal: UILabel!
     @IBOutlet weak var buttonCheckout: UIButton!
     
+    
+    
+    
     var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -28,6 +32,8 @@ class CartViewController: UIViewController {
         configSideMenu()
         configUI()
         configLocation()
+        
+        
     }
     
     func configSideMenu() {
