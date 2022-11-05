@@ -50,13 +50,13 @@ class Extras {
 
 class Item {
     
-    var price: Int?
+    var price: Float?
     var id: Int?
     var name: String?
     
     init(json: JSON) {
         self.id = json["id"].int
-        self.price = json["price"].int
+        self.price = json["price"].float
         self.name = json["name"].string
     }
 }

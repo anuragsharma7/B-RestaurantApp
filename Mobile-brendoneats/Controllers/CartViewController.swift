@@ -25,14 +25,20 @@ class CartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configSideMenu()
+        configUI()
+        configLocation()
+    }
+    
+    func configSideMenu() {
         if self.revealViewController() != nil {
             menuBarButton.target = self.revealViewController()
             menuBarButton.action = #selector(SWRevealViewController.revealToggle(_:))
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-        
+    }
+    
+    func configUI() {
         if Cart.currentCart.items.count == 0 {
             // Show a message
             let labelMessage = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 40))
@@ -51,7 +57,9 @@ class CartViewController: UIViewController {
             
             self.fetchMeals()
         }
-        
+    }
+    
+    func configLocation() {
         // Show current user's location
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self

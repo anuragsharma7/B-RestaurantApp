@@ -32,6 +32,8 @@ class MealDetailsViewController: UIViewController {
     var arrMultipleSelect: [Item] = []
     var arrCheckbox: [Int] = []
     
+    var lastAddedPriceForSingleSelection: Float = 0.0
+     
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -222,7 +224,8 @@ class MealDetailsViewController: UIViewController {
             buttonAddToCart.setTitle(newText, for: .normal)
             
             if let price = meal?.price {
-                labelTotal.text = "$\(price * Float(qty))"
+//                labelTotal.text = "$\(price * Float(qty))"
+                labelTotal.text = "$\(Float(labelTotal.text!.dropFirst())! - price)"
             }
         }
     }
@@ -236,7 +239,8 @@ class MealDetailsViewController: UIViewController {
             buttonAddToCart.setTitle(newText, for: .normal)
             
             if let price = meal?.price {
-                labelTotal.text = "$\(price * Float(qty))"
+//                labelTotal.text = "$\(price * Float(qty))"
+                labelTotal.text = "$\(Float(labelTotal.text!.dropFirst())! + price)"
             }
         }
     }
@@ -300,14 +304,7 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
                     cell.imgSelectUnselect.image = UIImage(systemName: "circle")
                 }
             }
-            
-            /*
-             ⌥ = Option/Alt
-             ⇧ = Shift
-             ⌃ = Control
-             */
-            
-            
+ 
             //            if let i = array.firstIndex(where: { $0.name == "Foo" }) {
             //                return array[i]
             //            }
@@ -324,14 +321,11 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
             
             cell.selectionStyle = .none
             cell.textLabel?.textColor = .gray
-            //            cell.delegate = self
+            
             cell.btnMinus.addTarget(self, action: #selector(btnMinusAction(_:)), for: .touchUpInside)
             cell.btnPlus.addTarget(self, action: #selector(btnPlusAction(_:)), for: .touchUpInside)
-            cell.btnPlus.tag = indexPath.row
-            cell.btnMinus.tag = indexPath.row
-            
-            //            cell.btnPlus
-            
+            //update data from array here
+//            cell.lblCount
             //subtracting one because Row 0 is row 1
             cell.textLabel?.text = (extras!.items![indexPath.row - 1].name)!
             cell.textLabel?.text = (cell.textLabel?.text)! + " - $" + price
@@ -345,7 +339,6 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
             cell.selectionStyle = .none
             cell.textLabel?.textColor = .gray
             
-            //xxx
             if arrCheckbox.count > 0 {
                 
                 cell.imgCheckbox.image = arrCheckbox[indexPath.row - 1] == 0 ? UIImage(systemName: "square") : UIImage(systemName: "square.fill")
@@ -361,7 +354,8 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
             //subtracting one because Row 0 is row 1
             cell.textLabel?.text = (extras!.items![indexPath.row - 1].name)!
             cell.textLabel?.text = (cell.textLabel?.text)! + " - $" + price
-            
+            //update data from array here
+//            cell.imgCheckbox.image
             return cell
         default:
             return UITableViewCell()
@@ -371,17 +365,49 @@ extension MealDetailsViewController: ExpyTableViewDataSource {
     }
     
     
-    
     // btn target fxns inside second section row
     @objc func btnMinusAction(_ sender: UIButton) {
-        print(sender.tag)
+        
+        let buttonPosition:CGPoint = sender.convert(CGPoint.zero, to: expandableTableView)
+        let indexPath = expandableTableView.indexPathForRow(at: buttonPosition)
+        let cell = expandableTableView.cellForRow(at: indexPath!) as! ExpandableCell
+        
+        if Int(cell.lblCount.text!)! > 0 {
+            //add to total price
+            if Int(cell.lblCount.text!)! >= 0 {
+                if let price: Float = meal?.extras![indexPath!.section].items![indexPath!.row - 1].price {
+                    if let existingTotal = Float(labelTotal.text!.dropFirst()) {
+                        
+                        labelTotal.text = "$\(existingTotal - price)"
+                        cell.lblCount.text = String(Int(cell.lblCount.text!)! - 1)
+                    }
+                    
+                }
+            }
+        }
+        
         
     }
     
     @objc func btnPlusAction(_ sender: UIButton) {
-        print(sender.tag)
+        
+        let buttonPosition:CGPoint = sender.convert(CGPoint.zero, to: expandableTableView)
+        let indexPath = expandableTableView.indexPathForRow(at: buttonPosition)
+        let cell = expandableTableView.cellForRow(at: indexPath!) as! ExpandableCell
+        
+        if Int(cell.lblCount.text!)! >= 0 {
+            if let price: Float = meal?.extras![indexPath!.section].items![indexPath!.row - 1].price {
+                if let existingTotal = Float(labelTotal.text!.dropFirst()) {
+                    
+                    labelTotal.text = "$\(existingTotal + price)"
+                    cell.lblCount.text = String(Int(cell.lblCount.text!)! + 1)
+                }
+                
+            }
+        }
         
     }
+    
     
 }
 
@@ -399,8 +425,10 @@ extension MealDetailsViewController: ExpyTableViewDelegate {
         if state == .willExpand {
             tableView.scrollToBottom(isAnimated: true)
         }
-        print("Current state: \(state)")
+        //print("Current state: \(state)")
     }
+    
+    
     
     //All of the UITableViewDataSource and UITableViewDelegate methods will be forwarded to you right as they are.
     //Here you can see two examples below.
@@ -416,41 +444,62 @@ extension MealDetailsViewController: ExpyTableViewDelegate {
                 cell?.imgSelectUnselect.image = UIImage(systemName: "circle.fill")
                 arrSingleSelect = []
                 arrSingleSelect.append((extras!.items?[indexPath.row - 1])!)
+                print(arrSingleSelect)
+                
+                //add latest
+                if let selectedExtrasPrice: Float = extras!.items![indexPath.row - 1].price {
+                     
+                    //minus last added from total
+                    labelTotal.text = "$\(Float(labelTotal.text!.dropFirst())! - lastAddedPriceForSingleSelection)"
+                    
+                    //Now add the price user has choosen
+                    
+                    labelTotal.text = "$\(Float(labelTotal.text!.dropFirst())! + selectedExtrasPrice)"
+                    
+                    //update last added price
+                    lastAddedPriceForSingleSelection = selectedExtrasPrice
+                     
+                }
                 
             } else {
                 cell?.imgSelectUnselect.image = UIImage(systemName: "circle")
             }
         } else if indexPath.section == 2 {
-            //xxx
+            
             if indexPath.row != 0 {
                 
                 let cell: CheckboxCell? = tableView.cellForRow(at: indexPath) as? CheckboxCell
                 
                 if cell?.imgCheckbox.image == UIImage(systemName: "square") {
-                    
                     cell?.imgCheckbox.image = UIImage(systemName: "square.fill")
                     arrCheckbox[indexPath.row - 1] = 1
-//                    arrCheckbox.append((extras!.items?[indexPath.row - 1])!)
+                    
+                    if let price: Float = extras!.items![indexPath.row - 1].price {
+                        if let existingTotal = Float(labelTotal.text!.dropFirst()) {
+                            
+                            labelTotal.text = "$\(existingTotal + price)"
+                        }
+                    }
+                    
                 } else {
-//                    if let idx = arrCheckboxSelect.firstIndex(where: { $0 === extras!.items?[indexPath.row - 1] }) {
-//                        arrCheckbox.remove(at: idx)
-//                    }
-                    
-                    arrCheckbox[indexPath.row - 1] = 0
                     cell?.imgCheckbox.image = UIImage(systemName: "square")
-
+                    arrCheckbox[indexPath.row - 1] = 0
                     
+                    if let price: Float = extras!.items![indexPath.row - 1].price {
+                        if let existingTotal = Float(labelTotal.text!.dropFirst()) {
+                            
+                            labelTotal.text = "$\(existingTotal - price)"
+                            
+                        }
+                    }
                 }
             }
-            
-            print(arrCheckbox)
             
         }
         
         //subtracting one because Row 0 is row 1
         // cell.textLabel?.text = extras!.items?[indexPath.row - 1].name ?? "N/A"
         if let cell: ExpandableCell = tableView.cellForRow(at: indexPath) as? ExpandableCell {
-            
             
             //                selectedExtras.append(extras!.items?[indexPath.row - 1])
             //            } else {
@@ -459,7 +508,6 @@ extension MealDetailsViewController: ExpyTableViewDelegate {
             //                    selectedExtras.remove(at: idx)
             //                }
             //            }
-            
             
         }
         
@@ -516,5 +564,18 @@ extension UITableView {
     
     func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
         return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
+    }
+}
+
+extension String {
+    func parseToInt() -> Float? {
+        return Float(self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined())
+    }
+    
+    func stringToFloat() -> Float? {
+        let numberFormatter = NumberFormatter()
+        let number = numberFormatter.number(from: self)
+        let numberFloatValue = number?.floatValue
+        return numberFloatValue!
     }
 }
